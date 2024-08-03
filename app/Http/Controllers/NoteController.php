@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class NoteController extends Controller
 {
@@ -13,7 +12,9 @@ class NoteController extends Controller
      */
     public function index()
     {
-        return 'index';
+        $notes = Note::orderBy("created_at","desc")->paginate(15);
+        // dd($notes); // Pinta i acaba l'execució
+        return view('note.index', ['notes' => $notes]);
     }
 
     /**
@@ -21,7 +22,7 @@ class NoteController extends Controller
      */
     public function create()
     {
-        return 'create';
+        return view('note.create');
     }
 
     /**
@@ -37,8 +38,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        Log::channel('stderr')->info('Hola, que tal?');
-        return 'show';
+        return view('note.show', ['note' => $note]);
     }
 
     /**
@@ -46,7 +46,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        return 'edit';
+        return view('note.edit', ['note' => $note]);
     }
 
     /**
